@@ -3,7 +3,9 @@
 USER="$(logname)"
 HOST="127.0.0.1"
 IMAGE="backup.img"
-DEV="${IMAGE%.*}"
+
+DEV=$(basename "$IMAGE")
+DEV="${DEV%.*}"
 
 SRC="/home/$USER"
 DST="/mnt/$DEV"
@@ -56,7 +58,7 @@ echo "# dst: $USER@$HOST:$DST/" >> "$LOGGER"
 echo >> "$LOGGER"
 
 # backup source directory using rsync
-TYPE=2 backup-exec "synchronizing '$USER@$HOST:$DST/' with '$SRC/'" '$RSYNC -z -e ssh "$SRC/" "$USER@$HOST:$DST/"'
+TYPE=2 backup-exec "synchronizing '$USER@$HOST:$DST/' with '$SRC/'" 'rsync ${OPTIONS[@]} -z -e ssh "$SRC/" "$USER@$HOST:$DST/"'
 
 # umount the remote block device
 TYPE=1 backup-exec "unmounting the remote block device" '$SSH sudo umount "$DST"'

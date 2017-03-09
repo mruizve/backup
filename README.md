@@ -21,27 +21,30 @@ Passwords handling, which is still under design, implementation and development,
 
 The scripts are very simple and are rely in the following set of assumptions 
 
-Data backup on a external USB hard drive connected to the PC using ```backup-to-usb.sh```
+Common assumptions
+
+1. The regular file ```~/.backup/excluded.txt``` exists and consists on a (possibly empty) list of paths patterns to be exclude from the backup.
+2. The ```$SRC``` variable defines a valid path on the local file system structure.
+3. The login user is the owner of the data contained in ```$SRC```.
+4. All transfer outcomes (standard output content) is written into a log file created inside the folder ```~/.backup/batch/XXXXXXXX.log```, where ```XXXXXXXX``` is a timestamp in epoch time.
+
+```backup-to-usb.sh``` assumptions
 
 1. The backup device is connected to the PC and is NOT mounted.
-2. The login user is the owner of the data to be transfered and have writing permission on the backup device.
-3. The ```$BACKUP``` variable defines a predefined mount point on /etc/fstab associated to the backup device.
-4. The ```$TARGET``` variable defines a valid path on the local file system structure.
-5. Exists the file ```~/.excluded.txt``` with a list (possibly empty) of paths patterns to be exclude from the backup.
+2. The login user have writing permission on the backup device.
+3. The ```$DST``` variable defines a predefined mount point on /etc/fstab associated to the backup device.
 
-Data backup on a remote LUKS device accessible through SSH using ```backup-to-luks.sh```
+```backup-to-luks.sh``` assumptions
 
 1. The ```cryptsetup``` tools are installed on the remote host.
 2. The remote host's IP or DNS is given in the ```$HOST``` variable.
-3. The login user is the owner of the data to be transfered and have a valid account with ssh access on ```$HOST```.
-4. On the user's remote home folder there is a file ```$IMAGE``` holding the LUKS file system.
-5. The ```$TARGET``` variable defines a valid path on the local file system structure.
-6. Exists the file ```~/.excluded.txt``` with a list (possibly empty) of paths patterns to be exclude from the backup.
+3. The login user have a valid account with granted ssh access on ```$HOST```.
+4. On the user's remote home exist either a regular image file or a block device, named ```$IMAGE```, holding the LUKS file system.
 
 
 ## QR-secrets
 
-This script is still on embryonic state and cuold suffer a deep metamorphosis in the _near future_ updates.
+This script is still on embryonic state and could suffer a deep metamorphosis in the _near future_ updates.
 The script is based on the following set of assumptions
 
 1. The folder ```~/.passwords``` exists and holds different ASCII armored GPG encrypted files.
@@ -51,7 +54,7 @@ The script is based on the following set of assumptions
     * Secret GPG keys in armored ASCII format, encrypted with the storage passphrase.
     * Secret SSH keys in armored ASCII format and the ```.ssh/config``` file, all encrypted with the storage passphrase.
     * All files in the folder ```.passwords``` having the extension ```.asc``` (assumed to be ASCII armored GPG encrypted files), except the ```storage.asc``` one, all of them encrypted with the storage passphrase.
-
+5. Generated QR codes are stored on the folder ```~/.backup/qr/```.
 
 ## Passwords handling
 

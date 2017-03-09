@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 # excluded and logging files
-IGNORE="$SRC/.backup/excluded.txt"
-LOGGER="$SRC/.backup/batch/$(date '+%s').log"
+IGNORE="/home/$USER/.backup/excluded.txt"
+LOGGER="/home/$USER/.backup/batch/$(date '+%s').log"
 
 # create temporary files used for standard file streams redirection
 TMPO="$(mktemp)"
@@ -10,7 +10,6 @@ TMPE="$(mktemp)"
 
 # rsync options for backup
 OPTIONS=(--exclude-from="$IGNORE" --delete-excluded -av)
-RSYNC="rsync ${OPTIONS[@]}"
 
 # robustly execute commands and show formatted output and error messages
 function backup-exec()

@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 # get script name
-script=${0##*/}
-script=${script%.*}
+script="$(basename $0)"
+script="${script%.*}"
 
 # generate a random prefix
 prefix=~/."$(cat /dev/urandom| tr -dc A-Za-z0-9\-_\!\@\#$\%\(\)-| head -c 16)-"
@@ -37,9 +37,9 @@ else
 fi
 
 # for each target
-for target in {gpg,password,ssh}; do
+for target in {gpg,passwords,ssh}; do
 	# create destination folders
-	outdir=~/.backup/$target
+	outdir=~/.backup/qr/$target
 	mkdir -p -m700 $outdir
 
 	# list of secret keys
@@ -54,7 +54,7 @@ for target in {gpg,password,ssh}; do
 		secret='gpg --armor --export-secret-keys'
 	fi
 
-	if [ "password" = "$target" ]; then
+	if [ "passwords" = "$target" ]; then
 		# for each stored password,
 		for i in ~/.passwords/*.asc; do
 			# extract file name
