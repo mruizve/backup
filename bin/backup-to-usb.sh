@@ -3,7 +3,7 @@
 USER="$(logname)"
 
 SRC="/home/$USER"
-DST="/media/backup/$USER"
+DST="/media/backup"
 
 if [ ! -d "$SRC" ]; then
 	echo "(E) invalid source target"
@@ -43,11 +43,11 @@ TYPE=1 backup-exec "mounting the usb block device" 'mount "$DST"'
 
 # log headers
 echo "# src: $SRC/" >> "$LOGGER"
-echo "# dst: $DST/" >> "$LOGGER"
+echo "# dst: $DST/$USER" >> "$LOGGER"
 echo >> "$LOGGER"
 
 # backup source directory using rsync
-TYPE=2 backup-exec "synchronizing '$DST/' with '$SRC/'" 'rsync ${OPTIONS[@]} "$SRC/" "$DST/"'
+TYPE=2 backup-exec "synchronizing '$DST/$USER' with '$SRC/'" 'rsync ${OPTIONS[@]} "$SRC/" "$DST/$USER/"'
 
 # umount the usb block device
 TYPE=1 backup-exec "unmounting the usb block device" 'umount "$DST"'

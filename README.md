@@ -2,20 +2,17 @@
 This is a quite incomplete (and on a very early stage) collection of scripts for personal data backup and some password handling tools.
 The backup scripts are divided in three main functionalities
 
-1.
-Batch data synchronization based on ```rsync```, for simple backup between local or remote devices.
+1. Batch data synchronization based on ```rsync```, for simple backup between local or remote devices.
 Including
 * ```backup-to-usb.sh```: data synchronization with a **local** USB disk connected to the computer.
 * ```backup-to-luks.sh```: data synchronization with a **remote** LUKS device (that can be a hard disk or an image file).
 
 **Warning**: we use the rsync ```--delete-excluded``` flag on both scripts!
 
-2.
-Conversion of secret GPG/SSH keys and other sensible encrypted data into QR codes for physical backup and storage.
+2. Conversion of secret GPG/SSH keys and other sensible encrypted data into QR codes for physical backup and storage.
 Currently this functionality is implemented in ```backup-qr-secrets.sh```.
 
-3.
-Passwords handling, which is still under design, implementation and development, reason why a clear and introductory description is almost impossible as well as useless.
+3. Passwords handling, which is still under design, implementation and development, reason why a clear and introductory description is almost impossible as well as useless.
 
 ## Batch data synchronization
 
@@ -33,6 +30,7 @@ Common assumptions
 1. The backup device is connected to the PC and is NOT mounted.
 2. The login user have writing permission on the backup device.
 3. The ```$DST``` variable defines a predefined mount point on /etc/fstab associated to the backup device.
+4. Data will be synchronized to ```$DST/$USER/``` instead of ```$DST/```.
 
 ```backup-to-luks.sh``` assumptions
 
